@@ -2,12 +2,23 @@ import pygame
 from sys import exit
 from random import randint
 
-def displayScore():
-    currentTime = int(pygame.time.get_ticks()/1000 - startTime)
-    scoreSurface = testFont.render(f'Cramptes: {currentTime}', False, (64,64,64))
-    scoreRectangle = scoreSurface.get_rect(center = (400,50))
-    screen.blit(scoreSurface,scoreRectangle)
-    return currentTime
+def displayScore(obstacleList,score):
+        for obstacle in obstacleList:
+            if obstacle.x == 40:
+                score += 1
+
+        scoreSurface = testFont.render(f'Cramptes: {score}', False, (64,64,64))
+        scoreRectangle = scoreSurface.get_rect(center = (400,50))
+        screen.blit(scoreSurface,scoreRectangle)
+        return score
+        
+
+# def displayScore():
+#     currentTime = int(pygame.time.get_ticks()/1000 - startTime)
+#     scoreSurface = testFont.render(f'Cramptes: {currentTime}', False, (64,64,64))
+#     scoreRectangle = scoreSurface.get_rect(center = (400,50))
+#     screen.blit(scoreSurface,scoreRectangle)
+#     return currentTime
     
 def obstacleMovement(obstacleList):
     if(obstacleList):
@@ -26,7 +37,7 @@ def obstacleMovement(obstacleList):
     
 def collisions(player,obstacles): 
     if obstacles:
-        for obstacleRectangle in obstacles:
+        for obstacleRectangle in obstacles  :
             if player.colliderect(obstacleRectangle):
                 return False
     return True
@@ -106,7 +117,7 @@ while True:#game loop infinie, dessiner tous les éléments, ensuite tout update
         # pygame.draw.rect(screen,'#c0e8ec',scoreRectangle,5)
 
         # screen.blit(scoreSurface,scoreRectangle)
-        score = displayScore()
+        #score = displayScore()
 
         #Player
         playerGravity += 1
@@ -117,6 +128,10 @@ while True:#game loop infinie, dessiner tous les éléments, ensuite tout update
 
         #obstacle movement
         obstacleRectList = obstacleMovement(obstacleRectList)
+
+        print(score)
+        score = displayScore(obstacleRectList,score)
+        print(score)
 
         # collision
         active = collisions(playerRectangle,obstacleRectList)
